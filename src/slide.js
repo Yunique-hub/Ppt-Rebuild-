@@ -48,7 +48,7 @@ export function cropRect(start, end) {
 export function recognizedLayers(blocks, slide, colorAt) {
   const lines = (blocks ?? []).flatMap(block => block.paragraphs.flatMap(p => p.lines))
   return lines.flatMap(line => {
-    const text = line.text.trim()
+    const text = line.text.trim().replace(/(\p{Script=Han})[ \t]+(?=\p{Script=Han})/gu, '$1')
     const { x0, y0, x1, y1 } = line.bbox
     if (!text || x1 <= x0 || y1 <= y0) return []
     const fontSize = Math.max(8, Math.round((y1 - y0) * 1.14))

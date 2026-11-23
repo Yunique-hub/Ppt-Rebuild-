@@ -51,28 +51,13 @@ test('imports a screenshot, runs real OCR, and exports a cropped picture', async
     if (/^https?:/.test(request.url()) && !request.url().startsWith('http://127.0.0.1:4178/')) external.push(request.url())
   })
   await page.goto('/')
-  const png = await page.evaluate(() => {
-    const canvas = document.createElement('canvas')
-    canvas.width = 960
-    canvas.height = 540
-    const ctx = canvas.getContext('2d')
-    ctx.fillStyle = '#ffffff'
-    ctx.fillRect(0, 0, 960, 540)
-    ctx.fillStyle = '#151515'
-    ctx.font = 'bold 70px Arial'
-    ctx.fillText('SLIDEFORM OCR', 70, 175)
-    ctx.fillStyle = '#2d6750'
-    ctx.fillRect(500, 310, 280, 160)
-    return canvas.toDataURL().split(',')[1]
-  })
-  await page.locator('input[type=file]').first().setInputFiles({
-    name: 'ocr-verification.png', mimeType: 'image/png', buffer: Buffer.from(png, 'base64'),
-  })
+  await page.locator('input[type=file]').first().setInputFiles('tests/fixtures/ocr-bilingual.png')
   await expect(page.getByRole('status')).toContainText('截图已导入')
   await page.getByRole('button', { name: '识别文字' }).click()
   await expect(page.getByRole('status')).toContainText('识别到', { timeout: 65000 })
   const rebuilt = page.getByRole('region', { name: '重建画布' })
   await expect(rebuilt.getByRole('button', { name: 'SLIDEFORM OCR' })).toBeVisible()
+  await expect(rebuilt.getByRole('button', { name: '幻灯片文字编辑' })).toBeVisible()
 
   await page.getByRole('button', { name: '截取图片' }).click()
   const area = await page.getByRole('region', { name: '原始截图' }).getByAltText('原始截图').boundingBox()
@@ -83,6 +68,7 @@ test('imports a screenshot, runs real OCR, and exports a cropped picture', async
   await expect(rebuilt.getByRole('button', { name: '截图选区' })).toBeVisible()
   const xml = await exportXml(page, testInfo)
   expect(xml).toContain('<a:t>SLIDEFORM OCR</a:t>')
+  expect(xml).toContain('<a:t>幻灯片文字编辑</a:t>')
   expect(xml).toContain('name="截图选区"')
   expect(external).toEqual([])
 })

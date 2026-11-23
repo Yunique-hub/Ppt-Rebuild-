@@ -23,7 +23,7 @@ test('layer ordering preserves both the original array and the objects', () => {
 
 test('OCR creates bounded native text layer candidates only for valid lines', () => {
   const blocks = [{ paragraphs: [{ lines: [
-    { text: '  原生文本  ', bbox: { x0: 1130, x1: 1280, y0: 42, y1: 98 } },
+    { text: '  原 生 文本  ', bbox: { x0: 1130, x1: 1280, y0: 42, y1: 98 } },
     { text: ' ', bbox: { x0: 0, x1: 20, y0: 0, y1: 20 } },
     { text: 'invalid', bbox: { x0: 0, x1: 0, y0: 0, y1: 20 } },
   ] }] }]
