@@ -1,0 +1,47 @@
+{
+  "name": "ppt-rebuild",
+  "version": "1.0.0",
+  "description": "Local-first screenshot reconstruction with editable PowerPoint export",
+  "scripts": {
+    "test": "node --test tests/slide.test.js",
+    "predev": "node scripts/prepare-ocr.mjs",
+    "dev": "vite",
+    "prebuild": "node scripts/prepare-ocr.mjs",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:e2e": "playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yunique-hub/Ppt-Rebuild-.git"
+  },
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Yunique-hub/Ppt-Rebuild-/issues"
+  },
+  "homepage": "https://github.com/Yunique-hub/Ppt-Rebuild-#readme",
+  "dependencies": {
+    "@fontsource-variable/manrope": "5.3.0",
+    "@tesseract.js-data/chi_sim": "1.0.0",
+    "@tesseract.js-data/eng": "1.0.0",
+    "lucide-react": "1.77.0",
+    "pptxgenjs": "4.0.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "tesseract.js": "7.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.1",
+    "jszip": "3.10.2",
+    "vite": "8.3.7"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=22.12"
+  },
+  "overrides": {
+    "pptxgenjs": {
+      "image-size": "2.1.0"
+    }
+  }
+}
